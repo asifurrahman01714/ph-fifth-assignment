@@ -37,7 +37,7 @@ const submit = document.getElementById('submit');
                  `;
                 mealDivAppend.innerHTML = mealInfo;
 
-                mealDiv.addEventListener('click', function () {
+                mealDivAppend.addEventListener('click', function () {
                     singleMealDetails(allMeal.idMeal);
 
                 });
@@ -51,35 +51,37 @@ const submit = document.getElementById('submit');
             const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
             fetch(url)
                 .then(res => res.json())
-                .then(data => displayMealDetails(data.meals))
+                .then(data => {
+                    displayMealDetails(data.meals[0]);
+                    console.log(data);
+                    console.log(data.meals[0]);
+                })
         }
 
         const displayMealDetails = (allMealDetails) => {
             const mealDetails = document.getElementById('mealDetails');
             clearAllYourData('mealDetails');
-            allMealDetails.forEach(allMeal => {
-                const mealDetailAppend = document.createElement('div');
+            const mealDetailAppend = document.createElement('div');
                 mealDetailAppend.className = 'meal-details';
                 const mealInfo = `
-                     <img class="detail-img" src="${allMeal.strMealThumb}" alt="">
-                     <h3 class ="meal-name"> ${allMeal.strMeal} </h3>
+                     <img class="detail-img" src="${allMealDetails.strMealThumb}" alt="">
+                     <h3 class ="meal-name"> ${allMealDetails.strMeal} </h3>
                      <h3 class ="meal-name"> Ingredients </h3>
                      <ul>
-                        <li>${allMeal.strMeasure1} ${allMeal.strIngredient1}</li>
-                        <li>${allMeal.strMeasure2} ${allMeal.strIngredient2}</li>
-                        <li>${allMeal.strMeasure3} ${allMeal.strIngredient3}</li>
-                        <li>${allMeal.strMeasure4} ${allMeal.strIngredient4}</li>
-                        <li>${allMeal.strMeasure5} ${allMeal.strIngredient5}</li>
-                        <li>${allMeal.strMeasure6} ${allMeal.strIngredient6}</li>
-                        <li>${allMeal.strMeasure7} ${allMeal.strIngredient7}</li>
-                        <li>${allMeal.strMeasure8} ${allMeal.strIngredient8}</li>
+                        <li>${allMealDetails.strMeasure1} ${allMealDetails.strIngredient1}</li>
+                        <li>${allMealDetails.strMeasure2} ${allMealDetails.strIngredient2}</li>
+                        <li>${allMealDetails.strMeasure3} ${allMealDetails.strIngredient3}</li>
+                        <li>${allMealDetails.strMeasure4} ${allMealDetails.strIngredient4}</li>
+                        <li>${allMealDetails.strMeasure5} ${allMealDetails.strIngredient5}</li>
+                        <li>${allMealDetails.strMeasure6} ${allMealDetails.strIngredient6}</li>
+                        <li>${allMealDetails.strMeasure7} ${allMealDetails.strIngredient7}</li>
+                        <li>${allMealDetails.strMeasure8} ${allMealDetails.strIngredient8}</li>
                         
                     </ul
 
                  `;
                 mealDetailAppend.innerHTML = mealInfo;
                 mealDetails.appendChild(mealDetailAppend);
-            });
            
         }
 
