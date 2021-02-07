@@ -2,7 +2,7 @@ const submit = document.getElementById('submit');
         submit.addEventListener('click', function () {
             const mealName = document.getElementById('mealName');
 
-            fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=" + mealName.value)
+            fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName.value}`)
                 .then(res => res.json())
                 .then(data => {
                     const mealInput = document.getElementById('mealName').value;
@@ -12,63 +12,78 @@ const submit = document.getElementById('submit');
                     } else if (meal == null) {
                         alert("Don't Match Any Food Item");
                     } else {
-                        displayData(data);
+                        displayData(data.meals);
                     }
 
                 })
+                .catch(error => console.log(error))
         });
 
 
-        const displayData = (data) => {
-            console.log(data);
-            console.log(data.meals);
-            console.log(data.meals[0]);
-            console.log(data.meals[0].strMealThumb);
-            console.log(data.meals[0].strMeal);
-
-
-            const mealName = data.meals[0].strMeal;
-            const mealThumbnail = data.meals[0].strMealThumb;
-            const mealArea = data.meals[0].strArea;
+        //mealData = data.meals
+        const displayData = (mealData) => {
             const mealDiv = document.getElementById('mealDiv');
-            const mealDivAppend = document.createElement('div');
-            const mealInfo = `
-                     <img class="img-fluid" src="${mealThumbnail}" alt="">
-                     <h3 class ="meal-name"> ${mealName} </h3>
-                     <h5 class ="meal-area"> ${mealArea} </h5>
-                 `;
-
-            mealDivAppend.innerHTML = mealInfo;
-            mealDivAppend.className = 'main-part';
-            mealDiv.appendChild(mealDivAppend);
-
-
-            mealDiv.addEventListener('click', function () {
-                const dataMeal = data.meals[0];
-                const mealDetails = document.getElementById('mealDetails');
-                const mealDetailAppend = document.createElement('div');
+            clearAllYourData('mealDiv');
+            clearAllYourData('mealDetails');
+            //allMeal = data.meals
+            mealData.forEach(allMeal => {
+                const mealDivAppend = document.createElement('div');
+                mealDivAppend.className = 'main-part';
+                //itemPosition = item.idMeal;
                 const mealInfo = `
-                     <img class="detail-img" src="${mealThumbnail}" alt="">
-                     <h3 class ="meal-name"> ${mealName} </h3>
+                     <img class="img-fluid" src="${allMeal.strMealThumb}" alt="">
+                     <h3 class ="meal-name"> ${allMeal.strMeal} </h3>
+                     <h5 class ="meal-area"> ${allMeal.strArea} </h5>
+                 `;
+                mealDivAppend.innerHTML = mealInfo;
+
+                mealDiv.addEventListener('click', function () {
+                    mealDetails(allMeal.idMeal);
+
+                });
+                mealDiv.appendChild(mealDivAppend);
+            });
+            document.getElementById('mealName').value = '';
+        };
+
+
+        const mealDetails = id => {
+            const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+            fetch(url)
+                .then(res => res.json())
+                .then(data => displayMealDetails(data.meals))
+        }
+
+        const displayMealDetails = (allMealDetails) => {
+            const mealDetails = document.getElementById('mealDetails');
+            clearAllYourData('mealDetails');
+            allMealDetails.forEach(allMeal => {
+                const mealDetailAppend = document.createElement('div');
+                mealDetailAppend.className = 'meal-details';
+                const mealInfo = `
+                     <img class="detail-img" src="${allMeal.strMealThumb}" alt="">
+                     <h3 class ="meal-name"> ${allMeal.strMeal} </h3>
                      <h3 class ="meal-name"> Ingredients </h3>
                      <ul>
-                        <li>${dataMeal.strMeasure1} ${dataMeal.strIngredient1}</li>
-                        <li>${dataMeal.strMeasure2} ${dataMeal.strIngredient2}</li>
-                        <li>${dataMeal.strMeasure3} ${dataMeal.strIngredient3}</li>
-                        <li>${dataMeal.strMeasure4} ${dataMeal.strIngredient4}</li>
-                        <li>${dataMeal.strMeasure5} ${dataMeal.strIngredient5}</li>
-                        <li>${dataMeal.strMeasure6} ${dataMeal.strIngredient6}</li>
-                        <li>${dataMeal.strMeasure7} ${dataMeal.strIngredient7}</li>
-                        <li>${dataMeal.strMeasure8} ${dataMeal.strIngredient8}</li>
+                        <li>${allMeal.strMeasure1} ${allMeal.strIngredient1}</li>
+                        <li>${allMeal.strMeasure2} ${allMeal.strIngredient2}</li>
+                        <li>${allMeal.strMeasure3} ${allMeal.strIngredient3}</li>
+                        <li>${allMeal.strMeasure4} ${allMeal.strIngredient4}</li>
+                        <li>${allMeal.strMeasure5} ${allMeal.strIngredient5}</li>
+                        <li>${allMeal.strMeasure6} ${allMeal.strIngredient6}</li>
+                        <li>${allMeal.strMeasure7} ${allMeal.strIngredient7}</li>
+                        <li>${allMeal.strMeasure8} ${allMeal.strIngredient8}</li>
                         
                     </ul
 
                  `;
-
                 mealDetailAppend.innerHTML = mealInfo;
-                mealDetailAppend.className = 'meal-details';
                 mealDetails.appendChild(mealDetailAppend);
-            })
+            });
 
+        }
 
-        };
+        const clearAllYourData = id => {
+            const itemDetails = document.getElementById(id);
+            itemDetails.innerHTML = "";
+        }
