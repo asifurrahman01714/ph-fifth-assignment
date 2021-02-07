@@ -1,11 +1,13 @@
-.ml-auto{
+.ml-auto {
     justify-content: flex-end;
 }
+
 #mealDiv {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 30px;
 }
+
 .main-part {
     border: 1px solid #e4e4ff;
     padding: 20px;
