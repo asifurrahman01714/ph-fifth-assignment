@@ -29,7 +29,7 @@ const submit = document.getElementById('submit');
             mealData.forEach(allMeal => {
                 const mealDivAppend = document.createElement('div');
                 mealDivAppend.className = 'main-part';
-                //itemPosition = item.idMeal;
+                
                 const mealInfo = `
                      <img class="img-fluid" src="${allMeal.strMealThumb}" alt="">
                      <h3 class ="meal-name"> ${allMeal.strMeal} </h3>
@@ -38,7 +38,7 @@ const submit = document.getElementById('submit');
                 mealDivAppend.innerHTML = mealInfo;
 
                 mealDiv.addEventListener('click', function () {
-                    mealDetails(allMeal.idMeal);
+                    singleMealDetails(allMeal.idMeal);
 
                 });
                 mealDiv.appendChild(mealDivAppend);
@@ -47,7 +47,7 @@ const submit = document.getElementById('submit');
         };
 
 
-        const mealDetails = id => {
+        const singleMealDetails = id => {
             const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
             fetch(url)
                 .then(res => res.json())
@@ -80,10 +80,10 @@ const submit = document.getElementById('submit');
                 mealDetailAppend.innerHTML = mealInfo;
                 mealDetails.appendChild(mealDetailAppend);
             });
-
+           
         }
 
         const clearAllYourData = id => {
-            const itemDetails = document.getElementById(id);
-            itemDetails.innerHTML = "";
+            const mealDetails = document.getElementById(id);
+            mealDetails.innerHTML = "";
         }
