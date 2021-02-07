@@ -1,0 +1,33 @@
+.main-part {
+    border: 1px solid #e4e4ff;
+    padding: 20px;
+    width: 70%;
+    background-color: #f5efe9;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.main-part img {
+    margin-bottom: 10px;
+}
+
+.meal-name {
+    font-size: 25px;
+}
+
+.meal-details {
+    padding: 20px;
+    width: 70%;
+    padding: 20px;
+}
+
+.detail-img {
+    height: 238px;
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#mealDetails {
+    margin-top: 75px !important;
+}
